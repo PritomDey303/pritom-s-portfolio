@@ -1,28 +1,32 @@
 const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
 const { notFoundHandler } = require("./middlewares/common/errorHandler");
-
-const app = express();
+const cookieParser = require("cookie-parser");
+const authRouter = require("./router/authRouter");
 dotenv.config();
-
+const port = 3000;
 //database connection
 mongoose
   .connect(process.env.MONGO_CONNECTION_STRING)
   .then(() => console.log("database connection successful"))
   .catch((err) => console.log(err.message));
-
-//request parser
-app.use(express.json);
+//parse json
+app.use(bodyParser.json());
+// request parsers
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-//parse cookies
+//using cookie parser
 app.use(cookieParser(process.env.COOKIE_SECRET));
+
+// //api calling
+
+app.use("/authentication", authRouter);
+
 //not found handler
 app.use(notFoundHandler);
-//error handling
-
-app.listen(process.env.PORT, () => {
-  console.log(`app listening to port ${process.env.PORT}`);
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
 });
