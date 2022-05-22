@@ -10,8 +10,5 @@ router.use((req, res, next) => {
 // define the home page route
 router.get("/", insertPersonalInfo);
 // define the about route
-router.get("/about", (req, res) => {
-  res.send("About birds");
-});
 
 module.exports = router;
