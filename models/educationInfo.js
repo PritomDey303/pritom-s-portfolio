@@ -27,6 +27,11 @@ const eductionSchema = new Schema(
       type: Date,
       required: true,
     },
+    user_id: {
+      type: String,
+      trim: true,
+      required: true,
+    },
   },
   { timestamps: true }
 );

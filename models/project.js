@@ -31,8 +31,13 @@ const projectSchema = new Schema(
       trim: true,
     },
     project_img: {
+      type: Array,
+      trim: true,
+    },
+    user_id: {
       type: String,
       trim: true,
+      required: true,
     },
   },
   {

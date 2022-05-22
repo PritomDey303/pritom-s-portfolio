@@ -25,6 +25,11 @@ const experienceSchema = new Schema(
       required: true,
       trim: true,
     },
+    user_id: {
+      type: String,
+      trim: true,
+      required: true,
+    },
   },
   { timestamps: true }
 );

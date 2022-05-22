@@ -5,50 +5,50 @@ const personalInfoSchema = new Schema(
   {
     firstname: {
       type: String,
-      required: true,
+      trim: true,
     },
     lastname: {
       type: String,
-      required: true,
+      trim: true,
     },
     address: {
       type: String,
-      required: true,
+      trim: true,
     },
     email: {
       type: String,
-      required: true,
+
       trim: true,
     },
     mobile: {
       type: String,
-      required: true,
+
       trim: true,
     },
     facebook: {
       type: String,
       trim: true,
-      required: true,
     },
     linkedin: {
       type: String,
       trim: true,
-      required: true,
     },
     github: {
       type: String,
-      required: true,
+
       trim: true,
     },
     instagram: {
       type: String,
       trim: true,
-      required: true,
     },
     twitter: {
       type: String,
       trim: true,
-      required: true,
+    },
+    user_id: {
+      type: String,
+      trim: true,
     },
   },
   {

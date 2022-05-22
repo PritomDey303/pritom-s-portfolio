@@ -2,8 +2,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const personalInfoRouter = require("./router/personalInfoRouter");
 const mongoose = require("mongoose");
-const { notFoundHandler } = require("./middlewares/common/errorHandler");
+const {
+  notFoundHandler,
+  errorHandler,
+} = require("./middlewares/common/errorHandler");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./router/authRouter");
 dotenv.config();
@@ -24,9 +28,12 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 // //api calling
 
 app.use("/authentication", authRouter);
-
-//not found handler
+app.use("/personalinfo", personalInfoRouter);
+// 404 not found handler
 app.use(notFoundHandler);
+
+// common error handler
+app.use(errorHandler);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
