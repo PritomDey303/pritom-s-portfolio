@@ -1,8 +1,17 @@
 const express = require("express");
 const { insertAuthInfo, login } = require("../controller/authController");
+const {
+  addAuthValidators,
+  addAuthValidationHandler,
+} = require("../middlewares/authentication/authValidator");
 const router = express.Router();
 
-router.post("/insert", insertAuthInfo);
+router.post(
+  "/signup",
+  addAuthValidators,
+  addAuthValidationHandler,
+  insertAuthInfo
+);
 router.post("/login", login);
 
 module.exports = router;

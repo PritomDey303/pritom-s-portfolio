@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const personalInfoRouter = require("./router/personalInfoRouter");
+const experienceRouter = require("./router/experienceRouter");
 const mongoose = require("mongoose");
 const {
   notFoundHandler,
@@ -29,6 +30,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/authentication", authRouter);
 app.use("/personalinfo", personalInfoRouter);
+app.use("/experience", experienceRouter);
 // 404 not found handler
 app.use(notFoundHandler);
 
