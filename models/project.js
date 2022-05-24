@@ -14,9 +14,8 @@ const projectSchema = new Schema(
       trim: true,
     },
     technologies: {
-      type: String,
+      type: Array,
       required: true,
-      trim: true,
     },
     frontend_code_link: {
       type: String,

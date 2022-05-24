@@ -98,4 +98,30 @@ async function login(req, res, next) {
   }
 }
 
-module.exports = { insertAuthInfo, login };
+//check login
+
+async function checkLogin(req, res, next) {
+  let cookies =
+    Object.keys(req.signedCookies).length > 0 ? req.signedCookies : null;
+  if (cookies) {
+    try {
+      token = cookies[process.env.COOKIE_NAME];
+      jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
+        if (err) {
+          console.log(err.message);
+          res.json({ status: 500, message: "Invalid User!" });
+        } else {
+          req.user = data;
+        }
+      });
+
+      next();
+    } catch (err) {
+      res.json({ status: 500, message: err.message });
+    }
+  } else {
+    res.json({ status: 500, message: "Invalid User!" });
+  }
+}
+
+module.exports = { insertAuthInfo, login, checkLogin };

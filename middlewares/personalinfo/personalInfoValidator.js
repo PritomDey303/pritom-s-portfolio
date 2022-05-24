@@ -1,5 +1,7 @@
 // external imports
 const { check, validationResult } = require("express-validator");
+const Authentication = require("../../models/authentication");
+const createError = require("http-errors");
 
 // add user
 const addPersonalInfoValidators = [
@@ -33,6 +35,23 @@ const addPersonalInfoValidators = [
   check("linkedin").optional().isURL().withMessage("Invalid url."),
   check("twitter").optional().isURL().withMessage("Invalid url."),
   check("instagram").optional().isURL().withMessage("Invalid url."),
+  check("user_id")
+    .isLength({ min: 1 })
+    .withMessage("User id is required.")
+    .trim()
+    .custom(async (value) => {
+      try {
+        const data = await Authentication.findById(ObjectId(value));
+        if (!data.length) {
+          throw createError("Invalid request!");
+        }
+      } catch (err) {
+        res.json({
+          status: 500,
+          message: "Sorry! Something went wrong.",
+        });
+      }
+    }),
 ];
 
 const addPersonalInfoValidationHandler = function (req, res, next) {

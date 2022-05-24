@@ -1,4 +1,5 @@
 const express = require("express");
+const { checkLogin } = require("../controller/authController");
 const {
   updatePersonalInfo,
   getPersonalInfo,
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.post(
   "/update",
+  checkLogin,
   addPersonalInfoValidators,
   addPersonalInfoValidationHandler,
   updatePersonalInfo

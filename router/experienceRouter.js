@@ -1,4 +1,5 @@
 const express = require("express");
+const { checkLogin } = require("../controller/authController");
 const { updateExperience } = require("../controller/experienceController");
 const {
   addExperienceValidators,
@@ -8,6 +9,7 @@ const router = express.Router();
 
 router.post(
   "/update",
+  checkLogin,
   addExperienceValidators,
   addExperienceValidatorsHandler,
   updateExperience
