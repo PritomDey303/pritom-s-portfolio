@@ -22,10 +22,7 @@ const addSkillValidators = [
           throw createError("Invalid request!");
         }
       } catch (err) {
-        res.json({
-          status: 500,
-          message: "Sorry! Something went wrong.",
-        });
+        throw createError("Invalid request!");
       }
     }),
 ];

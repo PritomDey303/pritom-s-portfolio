@@ -63,11 +63,10 @@ async function login(req, res, next) {
         const userObj = {
           _id: data[0]._id.valueOf(),
           email: email,
-          password: password,
         };
         //generate token
         const token = jwt.sign(userObj, process.env.JWT_SECRET, {
-          expiresIn: "2h",
+          expiresIn: "24h",
         });
 
         //set cookie
@@ -108,7 +107,6 @@ async function checkLogin(req, res, next) {
       token = cookies[process.env.COOKIE_NAME];
       jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
         if (err) {
-          console.log(err.message);
           res.json({ status: 500, message: "Invalid User!" });
         } else {
           req.user = data;
@@ -117,6 +115,7 @@ async function checkLogin(req, res, next) {
 
       next();
     } catch (err) {
+      console.log(err.message);
       res.json({ status: 500, message: err.message });
     }
   } else {

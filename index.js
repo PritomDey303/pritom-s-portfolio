@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const personalInfoRouter = require("./router/personalInfoRouter");
 const experienceRouter = require("./router/experienceRouter");
+const projectRouter = require("./router/projectRouter");
 const mongoose = require("mongoose");
 const {
   notFoundHandler,
@@ -11,6 +12,8 @@ const {
 } = require("./middlewares/common/errorHandler");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./router/authRouter");
+
+//dotenv file config
 dotenv.config();
 const port = 3000;
 //database connection
@@ -18,11 +21,10 @@ mongoose
   .connect(process.env.MONGO_CONNECTION_STRING)
   .then(() => console.log("database connection successful"))
   .catch((err) => console.log(err.message));
-//parse json
-app.use(bodyParser.json());
+
 // request parsers
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 //using cookie parser
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
@@ -31,6 +33,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use("/authentication", authRouter);
 app.use("/personalinfo", personalInfoRouter);
 app.use("/experience", experienceRouter);
+app.use("/project", projectRouter);
+
 // 404 not found handler
 app.use(notFoundHandler);
 

@@ -31,7 +31,6 @@ const projectSchema = new Schema(
     },
     project_img: {
       type: Array,
-      trim: true,
     },
     user_id: {
       type: String,
@@ -45,3 +44,4 @@ const projectSchema = new Schema(
 );
 
 const Project = mongoose.model("Project", projectSchema);
+module.exports = Project;

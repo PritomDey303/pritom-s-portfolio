@@ -1,18 +1,23 @@
 const express = require("express");
 const { checkLogin } = require("../controller/authController");
-const { updateExperience } = require("../controller/experienceController");
+const router = express.Router();
+const {
+  updateExperience,
+  insertExperience,
+  getExperience,
+} = require("../controller/experienceController");
 const {
   addExperienceValidators,
   addExperienceValidatorsHandler,
 } = require("../middlewares/experience/experienceValidator");
-const router = express.Router();
-
+router.get("/", getExperience);
+router.post("/update", checkLogin, updateExperience);
 router.post(
-  "/update",
+  "/insert",
   checkLogin,
   addExperienceValidators,
   addExperienceValidatorsHandler,
-  updateExperience
+  insertExperience
 );
 
 module.exports = router;

@@ -1,13 +1,14 @@
 const Authentication = require("../models/authentication");
-const ObjectId = require("mongodb").ObjectID;
 const Experience = require("../models/experience");
+const ObjectId = require("mongodb").ObjectID;
+
 async function updateExperience(req, res, next) {
   try {
     const id = ObjectId(req.body.user_id);
     const user = await Authentication.findById(id);
     if (user) {
       const updatedData = await Experience.findOneAndUpdate(
-        { user_id: req.body.user_id },
+        { _id: ObjectId(req.body._id) },
         { $set: req.body }
       ).catch((err) => {
         res.json({
@@ -33,4 +34,31 @@ async function updateExperience(req, res, next) {
   }
 }
 
-module.exports = { updateExperience };
+async function getExperience(req, res, next) {
+  try {
+    const data = await Experience.find({}).exec();
+    res.send(data);
+  } catch (err) {
+    res.json({
+      status: 500,
+      message: err.message,
+    });
+  }
+}
+
+//insert experience
+async function insertExperience(req, res, next) {
+  try {
+    const experience = await new Experience(req.body).save();
+    res.json({
+      status: 200,
+      message: "Data inserted successfully.",
+    });
+  } catch (err) {
+    res.json({
+      status: 500,
+      message: err.message,
+    });
+  }
+}
+module.exports = { updateExperience, getExperience, insertExperience };

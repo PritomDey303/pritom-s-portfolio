@@ -1,22 +1,26 @@
 const cloudinary = require("cloudinary");
-
+const dotenv = require("dotenv");
+dotenv.config();
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
-  cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
 });
 
-exportsz.uploads = (file, folder) => {
+exports.uploads = (file, folder) => {
   return new Promise((resolve) => {
-    cloudinary.uploader.upload(file, (result) => {
-      resolve({
-        url: resul.url,
-        id: result.public_id,
-      });
-    }),
+    cloudinary.uploader.upload(
+      file,
+      (result) => {
+        resolve({
+          url: result.secure_url,
+        });
+      },
       {
         resource_type: "auto",
         folder: folder,
-      };
+      }
+    );
   });
 };

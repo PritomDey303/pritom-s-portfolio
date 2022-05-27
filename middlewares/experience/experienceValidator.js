@@ -1,7 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const Authentication = require("../../models/authentication");
 const createError = require("http-errors");
-
+const ObjectId = require("mongodb").ObjectID;
 const addExperienceValidators = [
   check("designation")
     .optional()
@@ -14,7 +14,6 @@ const addExperienceValidators = [
     .optional()
     .isLength({ min: 1 })
     .withMessage("Company name is required")
-
     .trim(),
   check("description").optional().trim(),
   check("start_date").optional().isDate().withMessage("Valid date required."),
@@ -26,14 +25,12 @@ const addExperienceValidators = [
     .custom(async (value) => {
       try {
         const data = await Authentication.findById(ObjectId(value));
-        if (!data.length) {
+        isEmpty = Object.keys(data).length;
+        if (!isEmpty) {
           throw createError("Invalid request!");
         }
       } catch (err) {
-        res.json({
-          status: 500,
-          message: "Sorry! Something went wrong.",
-        });
+        throw createError("Invalid request!");
       }
     }),
 ];
