@@ -33,8 +33,9 @@ async function uploadProjectImg(req, res, next) {
     });
   }
 }
-
+////////////////
 //insert project data
+//////////////////////////////
 async function insertProject(req, res, next) {
   try {
     const projectData = await new Project({
@@ -52,4 +53,24 @@ async function insertProject(req, res, next) {
     });
   }
 }
-module.exports = { uploadProjectImg, insertProject };
+
+////////////////////////
+//////////////////////////
+//get project
+////////////////////////
+async function getProject(req, res, next) {
+  try {
+    const projectData = await Project.find({});
+    res.json({
+      status: 200,
+      data: projectData,
+    });
+  } catch (err) {
+    res.json({
+      status: 500,
+      message: err.message,
+    });
+  }
+}
+
+module.exports = { uploadProjectImg, insertProject, getProject };

@@ -1,4 +1,7 @@
 const express = require("express");
+const {
+  logout,
+} = require("../../student-management-system-project/sms-backend/controller/authenticationController");
 const { insertAuthInfo, login } = require("../controller/authController");
 const {
   addAuthValidators,
@@ -13,5 +16,5 @@ router.post(
   insertAuthInfo
 );
 router.post("/login", login);
-
+router.delete("/logout", logout);
 module.exports = router;

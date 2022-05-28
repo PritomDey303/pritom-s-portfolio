@@ -15,6 +15,7 @@ exports.uploads = (file, folder) => {
       (result) => {
         resolve({
           url: result.secure_url,
+          public_id: result.public_id,
         });
       },
       {
@@ -22,5 +23,15 @@ exports.uploads = (file, folder) => {
         folder: folder,
       }
     );
+  });
+};
+
+exports.destroy = (public_id) => {
+  return new Promise((resolve) => {
+    cloudinary.uploader.destroy(public_id, (result) => {
+      resolve({
+        result: result,
+      });
+    });
   });
 };

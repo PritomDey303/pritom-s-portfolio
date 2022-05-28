@@ -2,8 +2,7 @@ const { check, validationResult } = require("express-validator");
 const Authentication = require("../../models/authentication");
 const ObjectId = require("mongodb").ObjectID;
 const createError = require("http-errors");
-const { unLink } = require("fs");
-const path = require("path");
+const cloudinary = require("../common/cloudinary");
 //project validators
 const addProjectValidators = [
   check("title")
@@ -39,13 +38,18 @@ const addProjectValidators = [
     }),
 ];
 
-const addProjectValidatorsHandler = function (req, res, next) {
+const addProjectValidatorsHandler = async function (req, res, next) {
   const errors = validationResult(req);
   const mappedErrors = errors.mapped();
   if (Object.keys(mappedErrors).length === 0) {
     next();
   } else {
     // response the errors
+    const destroy = async (public_id) => await cloudinary.destroy(public_id);
+
+    for (const img of req.project_img) {
+      const result = await destroy(img.public_id);
+    }
 
     res.json({
       status: 500,

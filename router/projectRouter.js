@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   insertProject,
   uploadProjectImg,
+  getProject,
 } = require("../controller/projectController");
 
 const projectUpload = require("../middlewares/project/projectUpload");
@@ -16,9 +17,10 @@ router.post(
   "/insert",
   checkLogin,
   projectUpload,
+  uploadProjectImg,
   addProjectValidators,
   addProjectValidatorsHandler,
-  uploadProjectImg,
   insertProject
 );
+router.get("/", getProject);
 module.exports = router;

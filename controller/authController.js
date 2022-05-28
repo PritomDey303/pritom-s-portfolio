@@ -123,4 +123,15 @@ async function checkLogin(req, res, next) {
   }
 }
 
-module.exports = { insertAuthInfo, login, checkLogin };
+//////////////////////////
+///////////////////
+//logout controller
+function logout(req, res) {
+  res.clearCookie(process.env.COOKIE_NAME);
+  res.status(200).json({
+    status: 200,
+    message: "Logout successful!",
+  });
+}
+
+module.exports = { insertAuthInfo, login, logout, checkLogin };
