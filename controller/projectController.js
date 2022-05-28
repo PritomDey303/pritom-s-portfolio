@@ -1,6 +1,8 @@
 const fs = require("fs");
 const cloudinary = require("../middlewares/common/cloudinary");
 const Project = require("../models/project");
+const ObjectId = require("mongodb").ObjectID;
+const cloudiary = require("../middlewares/common/cloudinary");
 async function uploadProjectImg(req, res, next) {
   try {
     const uploader = async (path) =>
@@ -47,6 +49,11 @@ async function insertProject(req, res, next) {
       message: "Data inserted successfully.",
     });
   } catch (err) {
+    const destroy = async (public_id) => await cloudinary.destroy(public_id);
+
+    for (const img of req.project_img) {
+      const result = await destroy(img.public_id);
+    }
     res.json({
       status: 500,
       message: err.message,
@@ -72,5 +79,91 @@ async function getProject(req, res, next) {
     });
   }
 }
+//////////////////////////////////////////
+//////////////////////////////////////
+async function getProjectById(req, res, next) {
+  try {
+    const id = ObjectId(req.params.id);
+    const projectData = await Project.findById(id);
+    res.json({
+      status: 200,
+      data: projectData,
+    });
+  } catch (err) {
+    res.json({
+      status: 500,
+      message: err.message,
+    });
+  }
+}
+/////////////////////////////////////////
+////////////////////////////////////////
+async function deleteProjectById(req, res, next) {
+  try {
+    const id = ObjectId(req.params.id);
+    const projectData = await Project.findById(id);
+    const { project_img } = projectData;
+    const tempArr = project_img;
+    const deletedItem = await Project.findByIdAndDelete(id);
 
-module.exports = { uploadProjectImg, insertProject, getProject };
+    //delete online images
+    const destroy = async (public_id) => await cloudinary.destroy(public_id);
+
+    for (const img of tempArr) {
+      const result = await destroy(img.public_id);
+      console.log(result);
+    }
+    res.json({
+      status: 200,
+      message: "Project deleted successfully.",
+    });
+  } catch (err) {
+    res.json({
+      status: 500,
+      message: err.message,
+    });
+  }
+}
+//////////////////////////
+/////////////////////////
+async function updateProjectById(req, res, next) {
+  const id = ObjectId(req.params.id);
+  try {
+    const project = await Project.findById(id);
+    if (Object.keys(project).length !== 0) {
+      const updatedData = await Project.findOneAndUpdate(
+        { _id: id },
+        { $set: { ...req.body, project_img: req.project_img } }
+      );
+      //delete online images
+      const destroy = async (public_id) => await cloudinary.destroy(public_id);
+      const imgUrl = updatedData.project_img;
+      for (const img of imgUrl) {
+        const result = await destroy(img.public_id);
+      }
+      res.json({
+        status: 200,
+        message: "Data updated succuessfully.",
+      });
+    } else {
+      res.json({
+        status: 500,
+        message: "Invalid Project Id",
+      });
+    }
+  } catch (err) {
+    res.json({
+      status: 500,
+      message: err.message,
+    });
+  }
+}
+/////////////
+module.exports = {
+  uploadProjectImg,
+  insertProject,
+  getProject,
+  getProjectById,
+  deleteProjectById,
+  updateProjectById,
+};

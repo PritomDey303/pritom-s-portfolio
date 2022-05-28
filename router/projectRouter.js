@@ -5,6 +5,9 @@ const {
   insertProject,
   uploadProjectImg,
   getProject,
+  getProjectById,
+  deleteProjectById,
+  updateProjectById,
 } = require("../controller/projectController");
 
 const projectUpload = require("../middlewares/project/projectUpload");
@@ -22,5 +25,16 @@ router.post(
   addProjectValidatorsHandler,
   insertProject
 );
+router.post(
+  "/update/:id",
+  checkLogin,
+  projectUpload,
+  uploadProjectImg,
+  addProjectValidators,
+  addProjectValidatorsHandler,
+  updateProjectById
+);
+router.get("/:id", getProjectById);
 router.get("/", getProject);
+router.delete("/deleteproject/:id", checkLogin, deleteProjectById);
 module.exports = router;

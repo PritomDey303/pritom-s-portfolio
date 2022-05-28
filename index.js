@@ -20,7 +20,7 @@ const port = 3000;
 mongoose
   .connect(process.env.MONGO_CONNECTION_STRING)
   .then(() => console.log("database connection successful"))
-  .catch((err) => console.log(err.message));
+  .catch((err) => console.log(err.message + "a"));
 
 // request parsers
 app.use(express.urlencoded({ extended: true }));
