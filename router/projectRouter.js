@@ -8,6 +8,7 @@ const {
   getProjectById,
   deleteProjectById,
   updateProjectById,
+  filteredProject,
 } = require("../controller/projectController");
 
 const projectUpload = require("../middlewares/project/projectUpload");
@@ -34,7 +35,8 @@ router.post(
   addProjectValidatorsHandler,
   updateProjectById
 );
-router.get("/:id", getProjectById);
+router.get("/singleproject/:id", getProjectById);
 router.get("/", getProject);
+router.get("/filter/:tech", filteredProject);
 router.delete("/deleteproject/:id", checkLogin, deleteProjectById);
 module.exports = router;

@@ -96,6 +96,27 @@ async function getProjectById(req, res, next) {
     });
   }
 }
+/////////////////////////////////////////////
+/////////////////////////////////
+async function filteredProject(req, res, next) {
+  try {
+    const tech = req.params.tech;
+    console.log(tech);
+    const projectData = await Project.find({
+      technologies: tech,
+    }).exec();
+    res.json({
+      status: 200,
+      data: projectData,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.json({
+      status: 500,
+      message: err.message,
+    });
+  }
+}
 /////////////////////////////////////////
 ////////////////////////////////////////
 async function deleteProjectById(req, res, next) {
@@ -166,4 +187,5 @@ module.exports = {
   getProjectById,
   deleteProjectById,
   updateProjectById,
+  filteredProject,
 };
