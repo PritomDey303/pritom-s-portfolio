@@ -152,16 +152,34 @@ async function updateProjectById(req, res, next) {
   try {
     const project = await Project.findById(id);
     if (Object.keys(project).length !== 0) {
-      const updatedData = await Project.findOneAndUpdate(
-        { _id: id },
-        { $set: { ...req.body, project_img: req.project_img } }
-      );
-      //delete online images
-      const destroy = async (public_id) => await cloudinary.destroy(public_id);
-      const imgUrl = updatedData.project_img;
-      for (const img of imgUrl) {
-        const result = await destroy(img.public_id);
+      if (req.project_img.length !== 0) {
+        let updatedData = await Project.findOneAndUpdate(
+          { _id: id },
+          { $set: { ...req.body, project_img: req.project_img } }
+        );
+
+        //delete online images
+        const destroy = async (public_id) =>
+          await cloudinary.destroy(public_id);
+        const imgUrl = updatedData.project_img;
+        for (const img of imgUrl) {
+          const result = await destroy(img.public_id);
+        }
+      } else {
+        let updatedData = await Project.findOneAndUpdate(
+          { _id: id },
+          { $set: { ...req.body } }
+        );
+
+        //delete online images
+        const destroy = async (public_id) =>
+          await cloudinary.destroy(public_id);
+        const imgUrl = updatedData.project_img;
+        for (const img of imgUrl) {
+          const result = await destroy(img.public_id);
+        }
       }
+
       res.json({
         status: 200,
         message: "Data updated succuessfully.",
