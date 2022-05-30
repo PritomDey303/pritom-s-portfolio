@@ -61,4 +61,28 @@ async function insertExperience(req, res, next) {
     });
   }
 }
-module.exports = { updateExperience, getExperience, insertExperience };
+
+//delete experience
+
+async function deleteExperience(req, res, next) {
+  try {
+    const id = ObjectId(req.params.id);
+    const deletedData = await Experience.deleteOne({ _id: id });
+    res.json({
+      status: 200,
+      message: "Data deleted successfully.",
+      data: deletedData,
+    });
+  } catch (err) {
+    res.json({
+      status: 500,
+      message: err.message,
+    });
+  }
+}
+module.exports = {
+  updateExperience,
+  getExperience,
+  insertExperience,
+  deleteExperience,
+};

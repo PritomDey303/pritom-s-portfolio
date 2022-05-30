@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const personalInfoRouter = require("./router/personalInfoRouter");
 const experienceRouter = require("./router/experienceRouter");

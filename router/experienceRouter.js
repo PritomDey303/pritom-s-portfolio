@@ -5,6 +5,7 @@ const {
   updateExperience,
   insertExperience,
   getExperience,
+  deleteExperience,
 } = require("../controller/experienceController");
 const {
   addExperienceValidators,
@@ -20,4 +21,5 @@ router.post(
   insertExperience
 );
 
+router.delete("/delete/:id", checkLogin, deleteExperience);
 module.exports = router;
