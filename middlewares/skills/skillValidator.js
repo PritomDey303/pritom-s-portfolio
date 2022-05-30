@@ -18,7 +18,8 @@ const addSkillValidators = [
     .custom(async (value) => {
       try {
         const data = await Authentication.findById(ObjectId(value));
-        if (!data.length) {
+        dataLength = Object.keys(data).length;
+        if (!dataLength) {
           throw createError("Invalid request!");
         }
       } catch (err) {

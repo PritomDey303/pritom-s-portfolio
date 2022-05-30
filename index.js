@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const personalInfoRouter = require("./router/personalInfoRouter");
 const experienceRouter = require("./router/experienceRouter");
 const projectRouter = require("./router/projectRouter");
+const skillRouter = require("./router/skillRouter");
 const mongoose = require("mongoose");
 const {
   notFoundHandler,
@@ -34,7 +35,7 @@ app.use("/authentication", authRouter);
 app.use("/personalinfo", personalInfoRouter);
 app.use("/experience", experienceRouter);
 app.use("/project", projectRouter);
-
+app.use("/skill", skillRouter);
 // 404 not found handler
 app.use(notFoundHandler);
 
