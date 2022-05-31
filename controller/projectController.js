@@ -2,7 +2,6 @@ const fs = require("fs");
 const cloudinary = require("../middlewares/common/cloudinary");
 const Project = require("../models/project");
 const ObjectId = require("mongodb").ObjectID;
-const cloudiary = require("../middlewares/common/cloudinary");
 async function uploadProjectImg(req, res, next) {
   try {
     const uploader = async (path) =>
@@ -10,16 +9,14 @@ async function uploadProjectImg(req, res, next) {
     if (req.method === "POST") {
       const urls = [];
 
-      const files = req.files;
-
-      for (const file of files) {
+      for (let file of req.files) {
         const { path } = file;
-
         const newPath = await uploader(path);
 
         urls.push(newPath);
         fs.unlinkSync(path);
       }
+
       req.project_img = urls;
       next();
     } else {

@@ -6,6 +6,7 @@ const experienceRouter = require("./router/experienceRouter");
 const projectRouter = require("./router/projectRouter");
 const skillRouter = require("./router/skillRouter");
 const educationRouter = require("./router/educationRouter");
+const profilePictureRouter = require("./router/profilePictureRouter");
 const mongoose = require("mongoose");
 const {
   notFoundHandler,
@@ -37,6 +38,7 @@ app.use("/experience", experienceRouter);
 app.use("/project", projectRouter);
 app.use("/skill", skillRouter);
 app.use("/education", educationRouter);
+app.use("/profilepicture", profilePictureRouter);
 // 404 not found handler
 app.use(notFoundHandler);
 
