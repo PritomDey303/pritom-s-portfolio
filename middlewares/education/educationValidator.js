@@ -28,7 +28,7 @@ const addEducationValidators = [
     .custom(async (value) => {
       try {
         const data = await Authentication.findById(ObjectId(value));
-        if (!data.length) {
+        if (!Object.keys(data).length) {
           throw createError("Invalid request!");
         }
       } catch (err) {
