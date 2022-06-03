@@ -17,7 +17,7 @@ const authRouter = require("./router/authRouter");
 
 //dotenv file config
 dotenv.config();
-const port = 3000;
+const port = process.env.PORT;
 //database connection
 mongoose
   .connect(process.env.MONGO_CONNECTION_STRING)
