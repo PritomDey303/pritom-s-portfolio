@@ -42,6 +42,6 @@ app.use(notFoundHandler);
 
 // common error handler
 app.use(errorHandler);
-app.listen(port, () => {
+app.listen(port || 5000, () => {
   console.log(`Example app listening on port ${port}`);
 });
