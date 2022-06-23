@@ -1,8 +1,10 @@
 const express = require("express");
+
 const {
+  insertAuthInfo,
+  login,
   logout,
-} = require("../../student-management-system-project/sms-backend/controller/authenticationController");
-const { insertAuthInfo, login } = require("../controller/authController");
+} = require("../controller/authController");
 const {
   addAuthValidators,
   addAuthValidationHandler,
