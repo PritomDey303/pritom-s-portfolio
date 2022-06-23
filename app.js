@@ -14,22 +14,20 @@ const {
 } = require("./middlewares/common/errorHandler");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./router/authRouter");
-
 //dotenv file config
 dotenv.config();
+//console.log(dotenv.config());
 const port = process.env.PORT;
 //database connection
 mongoose
   .connect(process.env.MONGO_CONNECTION_STRING)
   .then(() => console.log("database connection successful"))
-  .catch((err) => console.log(err.message + "a"));
-
+  .catch((err) => console.log(err));
 // request parsers
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 //using cookie parser
 app.use(cookieParser(process.env.COOKIE_SECRET));
-
 // //api calling
 
 app.use("/authentication", authRouter);

@@ -3,9 +3,9 @@ const uploader = require("../../utilities/multerUploader");
 function projectUpload(req, res, next) {
   const upload = uploader(
     "project_img",
-    ["image/jpeg", "image/jpg", "image/png"],
+    ["image/jpeg", "image/jpg", "image/png", "image/gif"],
     1000000,
-    "Only .jpg, jpeg or .png format allowed!"
+    "Only .jpg, jpeg, .gif or .png format allowed!"
   );
 
   // call the middleware function
